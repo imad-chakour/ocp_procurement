@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCP - Show Commande</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        /* General Styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            color: #333;
+            width: 100%;
+            height: 100vh;
+            background: url('assets/images/OCP\ -\ STAGE\ 1\ -\ 2304_0.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        /* Modern Navbar Styles */
+        .navbar {
+            background-color: #2e7d32; /* Modern Dark Green Background */
+            border: none; /* Remove borders */
+            border-radius: 0; /* Remove border-radius */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+        }
+        .navbar-brand, 
+        .navbar-nav>li>a {
+            color: #ffffff !important; /* White Text */
+            font-weight: 500; /* Medium weight for modern look */
+            transition: color 0.3s ease; /* Smooth transition */
+        }
+        .navbar-brand:hover, 
+        .navbar-nav>li>a:hover {
+            color: #c8e6c9 !important; /* Light green text on hover */
+        }
+        .navbar-nav .active>a {
+            background-color: #388e3c !important; /* Darker green for active link */
+            color: #ffffff !important;
+            border-radius: 4px; /* Subtle rounded corners */
+        }
+        .navbar-toggle {
+            border: none; /* Remove toggle border */
+        }
+        .navbar-toggle .icon-bar {
+            background-color: #ffffff; /* White bars */
+            transition: all 0.3s ease; /* Smooth transition for icon */
+        }
+        .navbar-toggle:hover .icon-bar {
+            background-color: #c8e6c9; /* Light green bars on hover */
+        }
+        .container {
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .container h1 {
+            font-size: 36px;
+            margin-top: 0;
+            color: #000000;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .container table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .container table, .container th, .container td {
+            border: 1px solid #ddd;
+        }
+        .container th, .container td {
+            padding: 15px;
+            text-align: left;
+            font-size: 15px;
+        }
+        .container th {
+            background-color: #1e5b00;
+            color: white;
+        }
+        .search-form {
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            background: rgba(235, 253, 255, 0.3);
+        }
+        .search-form h2 {
+            font-size: 25px;
+            margin-bottom: 20px;
+            color: #000000;
+        }
+        .search-form .form-group {
+            margin-bottom: 15px;
+            color: #000000;
+        }
+        .search-form .btn-search {
+            background-color: #FFD700;
+            color: #333;
+            font-size: 16px;
+            border: none;
+            padding: 10px 20px;
+        }
+        .search-form .btn-search:hover {
+            background-color: #FFC300;
+            color: #000000;
+        }
+        .logo-green {
+        filter: brightness(0) invert(1);
+    }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>                        
+                </button>
+                <img class="logo-green" src="assets/images/logo.svg" alt="Home" title="Home">
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li><a href="/">Accueil</a></li>
+                    {% if not request.session.get("user") %}
+                    <li><a href="/contact">Nous Contacter</a></li>
+                    <li><a href="/A_propos">À Propos</a></li>
+                    {% endif %}
+                    {% if request.session.get("user") %}
+                    <li><a href="#" data-toggle="modal" data-target="#searchModal">Recherche de Commande</a></li>
+                    <li><a href="/gestion_acheteur">Gestion des Acheteurs</a></li>
+                    <li><a href="/gestion_fournisseur">Gestion des Fournisseurs</a></li>
+                    <li><a href="/gestion_AO">Gestion des Appels d'Offres</a></li>
+                    <li class="active"><a href="/gestion_commande">Gestion des Commandes</a></li>
+                    <li><a href="/gestion_avenant">Gestion des Avenants</a></li>
+                    {% endif %}
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {% if request.session.get("user") %}
+                        <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Déconnexion</a></li>
+                    {% else %}
+                        <li><a href="/sign_up"><span class="glyphicon glyphicon-user"></span> Inscription</a></li>
+                        <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+<div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Rechercher une Commande</h4>
+            </div>
+            <div class="modal-body">
+                <form action="/search" method="post">
+                    <div class="form-group">
+                        <label for="searchType">Type de recherche</label>
+                        <select class="form-control" id="searchType" name="searchType">
+                            <option value="">Sélectionner</option>
+                            <option value="fournisseur">Fournisseur</option>
+                            <option value="commande">Commande</option>
+                            <option value="appelOffre">Appel d'Offre</option>
+                            <option value="objet">Objet de Commande</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Fournisseur Fields -->
+                    <div id="fournisseurFields" style="display: none;">
+                        <div class="form-group">
+                            <label for="fournisseurName">Nom Fournisseur</label>
+                            <input type="text" class="form-control" id="fournisseurName" name="fournisseurName" placeholder="Nom du fournisseur">
+                        </div>
+                        <div class="form-group">
+                            <label for="fournisseurCode">Code Fournisseur</label>
+                            <input type="text" class="form-control" id="fournisseurCode" name="fournisseurCode" placeholder="Code du fournisseur">
+                        </div>
+                    </div>
+                    
+                    <!-- Commande Fields -->
+                    <div id="commandeFields" style="display: none;">
+                        <div class="form-group">
+                            <label for="commandeName">Nom Commande</label>
+                            <input type="text" class="form-control" id="commandeName" name="commandeName" placeholder="Nom de la commande">
+                        </div>
+                        <div class="form-group">
+                            <label for="commandeCode">Code Commande</label>
+                            <input type="text" class="form-control" id="commandeCode" name="commandeCode" placeholder="Code de la commande">
+                        </div>
+                    </div>
+                    
+                    <!-- Appel d'Offre Fields -->
+                    <div id="appelOffreFields" style="display: none;">
+                        <div class="form-group">
+                            <label for="aoName">Nom Appel d'Offre</label>
+                            <input type="text" class="form-control" id="aoName" name="aoName" placeholder="Nom de l'appel d'offre">
+                        </div>
+                        <div class="form-group">
+                            <label for="aoCode">Code Appel d'Offre</label>
+                            <input type="text" class="form-control" id="aoCode" name="aoCode" placeholder="Code de l'appel d'offre">
+                        </div>
+                    </div>
+
+                    <div id="ObjetFields" style="display: none;">
+                        <div class="form-group">
+                            <label for="objet">Objet</label>
+                            <input type="text" class="form-control" id="objet" name="objet" placeholder="Objet de Commande">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-search btn-primary">Rechercher</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <h1 style="font-size: 28px; font-weight: bold;">Gestion des Commandes</h1>
+    {% if error %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+    {% endif %}
+    <button class="btn btn-success" data-toggle="modal" data-target="#addUserModal">Ajouter une Commande</button>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Nom de la Commande</th>
+                <th>Date</th>
+                <th>Nom du fournisseur</th>
+                <th>Nom de l'Acheteur</th>
+                <th>Nom d'Appel d'offre</th>
+                <th>Objet</th>
+                <th>Document</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="userTableBody">
+            <!-- Les données des utilisateurs seront insérées ici -->
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal Ajouter Commande -->
+<div id="addUserModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Contenu du modal -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Ajouter une Commande</h4>
+            </div>
+            <div class="modal-body">
+                <form id="addCommande" action="/add_commande" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="code">Code:</label>
+                        <input type="text" class="form-control" id="code" name="code" placeholder="Entrer le code commande" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Nom de la commande:</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Entrer le nom commande" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ao_id">Code d'appel d'offre:</label>
+                        <select class="form-control" id="ao_id" name="ao_id" required>
+                            {% for a in ao %}
+                                <option value="{{ a.id }}">{{ a.code }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="frs_id">Code du fournisseur:</label>
+                        <select class="form-control" id="frs_id" name="frs_id" required>
+                            {% for frs in fournisseur %}
+                                <option value="{{ frs.id }}">{{ frs.code }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="acheteur_id">Acheteurs:</label>
+                        <select class="form-control" id="acheteur_id" name="acheteur_id" required>
+                            {% for acheteur in users %}
+                                <option value="{{ acheteur.id }}">{{ acheteur.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Date:</label>
+                        <input type="date" class="form-control" id="date" name="date" placeholder="Entrer la date" required>
+                        <small class="form-text text-muted">Enter a valid date.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="objet">Objet:</label>
+                        <input type="text" class="form-control" id="objet" name="objet" placeholder="Entrer l'objet" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="commandeFiles">Ajouter des PDF</label>
+                        <input type="file" class="form-control" id="commandeFiles" name="commandeFiles" accept=".pdf" multiple>
+                    </div>
+                    <button type="submit" class="btn btn-success">Ajouter Commande</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Function to display commandes
+    async function displayCommande() {
+    try {
+        const response = await fetch('/api/commande');
+        if (!response.ok) {
+            throw new Error('Erreur lors de la récupération des commandes');
+        }
+
+        const commandes = await response.json();
+        console.log('Commandes:', commandes); // Log the commandes array
+
+        const cmdTableBody = document.getElementById('userTableBody');
+        cmdTableBody.innerHTML = '';
+        
+        commandes.forEach(cmd => {
+            console.log('Commande:', cmd); // Log each commande to verify its structure
+            const tr = document.createElement('tr');
+            
+            // Create a cell for file URLs
+            const fileUrls = cmd.file_urls || []; // Default to empty array if no files
+            const fileLinks = fileUrls.map(url => `<a href="${url}" target="_blank">${url.split('/').pop()}</a>`).join('<br>');
+
+            tr.innerHTML = `
+                <td>${cmd.code}</td>
+                <td>${cmd.name}</td>
+                <td>${cmd.date}</td>
+                <td>${cmd.fournisseur.lastname}</td>
+                <td>${cmd.acheteur.lastname}</td>
+                <td>${cmd.AO.name}</td>
+                <td>${cmd.objet}</td>
+                <td>${fileLinks}</td>
+                <td>
+                    <button class="btn btn-danger" onclick="deleteCommande(${cmd.id})">Supprimer</button>
+                </td>
+            `;
+            cmdTableBody.appendChild(tr);
+        });
+
+    } catch (error) {
+        console.error('Erreur lors de l\'affichage des commandes:', error);
+        alert('Erreur lors de l\'affichage des commandes');
+    }
+}
+
+    // Display commandes on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        displayCommande();
+    });
+    
+    // Form validation and submission handler
+    document.getElementById('addCommande').addEventListener('submit', function(event) {
+        var alphanumericPattern = /^[A-Za-z0-9]+$/;
+        var code = document.getElementById('num').value;
+    
+        if (!alphanumericPattern.test(code)) {
+            alert("Invalid code. Only alphanumeric characters are allowed.");
+            event.preventDefault();
+        }
+    });
+    
+    // Function to delete a commande
+    async function deleteCommande(commandeId) {
+        try {
+            const response = await fetch(`/api/commande/${commandeId}`, {
+                method: 'DELETE'
+            });
+            
+            if (response.ok) {
+                // Refresh the list of commandes after successful deletion
+                displayCommande();
+            } else {
+                const errorData = await response.json();
+                alert(`Erreur lors de la suppression de la commande: ${errorData.detail || 'Erreur inconnue'}`);
+            }
+        } catch (error) {
+            console.error('Erreur lors de la suppression de la commande:', error);
+            alert('Erreur lors de la suppression de la commande');
+        }
+    }
+    $(document).ready(function() {
+        $('#searchType').change(function() {
+            var selectedType = $(this).val();
+            
+            // Hide all field sets initially
+            $('#fournisseurFields').hide();
+            $('#commandeFields').hide();
+            $('#appelOffreFields').hide();
+            
+            // Show the relevant fields based on the selected type
+            if (selectedType === 'fournisseur') {
+                $('#fournisseurFields').show();
+            } else if (selectedType === 'commande') {
+                $('#commandeFields').show();
+            } else if (selectedType === 'appelOffre') {
+                $('#appelOffreFields').show();
+            } else if (selectedType === 'objet') {
+                $('#ObjetFields').show();
+            }
+        });
+    });
+    
+</script>
+</body>
+</html>

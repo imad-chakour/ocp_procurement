@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Office Chérifien des Phosphates</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        /* General Styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            color: #333;
+            width: 100%;
+            height: 100vh;
+            background: url('assets/images/OCP\ -\ STAGE\ 1\ -\ 2304_0.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        /* Modern Navbar Styles */
+        .navbar {
+            background-color: #2e7d32; /* Modern Dark Green Background */
+            border: none; /* Remove borders */
+            border-radius: 0; /* Remove border-radius */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+        }
+        .navbar-brand, 
+        .navbar-nav>li>a {
+            color: #ffffff !important; /* White Text */
+            font-weight: 500; /* Medium weight for modern look */
+            transition: color 0.3s ease; /* Smooth transition */
+        }
+        .navbar-brand:hover, 
+        .navbar-nav>li>a:hover {
+            color: #c8e6c9 !important; /* Light green text on hover */
+        }
+        .navbar-nav .active>a {
+            background-color: #388e3c !important; /* Darker green for active link */
+            color: #ffffff !important;
+            border-radius: 4px; /* Subtle rounded corners */
+        }
+        .navbar-toggle {
+            border: none; /* Remove toggle border */
+        }
+        .navbar-toggle .icon-bar {
+            background-color: #ffffff; /* White bars */
+            transition: all 0.3s ease; /* Smooth transition for icon */
+        }
+        .navbar-toggle:hover .icon-bar {
+            background-color: #c8e6c9; /* Light green bars on hover */
+        }
+        /* Introduction Styles */
+        .introduction {
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .introduction h1 {
+            font-size: 32px;
+            margin-top: 0;
+            color: #000000;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .introduction p {
+            font-size: 18px;
+            color: #000000;
+        }
+
+        /* Search Form Styles */
+        .search-form {
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            background: rgba(235, 253, 255, 0.3);
+        }
+        .search-form h2 {
+            font-size: 25px;
+            margin-bottom: 20px;
+            color: #000000;
+        }
+        .search-form .form-group {
+            margin-bottom: 15px;
+            color: #000000;
+        }
+        .search-form .btn-search {
+            background-color: #FFD700;
+            color: #333;
+            font-size: 16px;
+            border: none;
+            padding: 10px 20px;
+        }
+        .search-form .btn-search:hover {
+            background-color: #FFC300;
+            color: #000000;
+        }
+
+        /* Fleet Section Styles */
+        .fleet-section {
+            background-color: #fff;
+            padding: 40px 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            border-radius: 5px;
+            background: rgba(235, 253, 255, 0.3);
+        }
+        .fleet-section h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #000000;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .fleet-section p {
+            font-size: 16px;
+            margin-bottom: 40px;
+            color: #000000;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .fleet-section .fleet-category {
+            margin-bottom: 20px;
+            color: #000000;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .fleet-section .fleet-category img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .fleet-section .fleet-category h3 {
+            font-size: 20px;
+            margin-top: 10px;
+            color: #000000;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .fleet-section .fleet-category p {
+            font-size: 14px;
+            color: #000000;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .fleet-section .fleet-category a {
+            color: #000000;
+            text-decoration: none;
+        }
+        .fleet-section .fleet-category a:hover {
+            text-decoration: underline;
+            color: #000000;
+        }
+
+        /* Promo Section */
+        .ocp_landing-section {
+            padding: 40px 0;
+            
+        }
+        .ocp_promoModule--wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .ocp_img--promo-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .ocp_textWrapper {
+            padding: 20px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .ocp_textWrapper-title {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #000000;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .ocp_textWrapper-desc p {
+            font-size: 18px;
+            color: #000000;
+        }
+        .ocp_cta {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            text-decoration: none;
+            border: 2px solid #1e5b00;
+            background-color: #1e5b00;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .ocp_cta:hover {
+            background-color: #000000;
+            border-color: #000000;
+        }
+        /* Modern Footer Section */
+        footer {
+            background: #2e7d32; /* Modern Dark Green Background */
+            color: #ffffff; /* White text */
+            text-align: center;
+            padding: 30px 0;
+            border-top: 1px solid #388e3c; /* Subtle border for separation */
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+        }
+
+        footer ul {
+            list-style: none;
+            padding: 0;
+            margin: 0; /* Remove default margin */
+        }
+
+        footer ul li {
+            display: inline-block; /* Inline-block for better spacing control */
+            margin: 0 15px; /* Equal spacing on both sides */
+        }
+
+        footer ul li a {
+            color: #c8e6c9; /* Light green text for links */
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500; /* Medium weight for modern look */
+            transition: color 0.3s ease; /* Smooth transition */
+        }
+
+        footer ul li a:hover {
+            color: #ffffff; /* White on hover */
+        }
+
+        .redirect-image {
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .redirect-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .logo-green {
+        filter: brightness(0) invert(1);
+    }
+        </style>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>                        
+            </button>
+            <img class="logo-green" src="assets/images/logo.svg" alt="Home" title="Home">
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/">Accueil</a></li>
+                {% if not request.session.get("user") %}
+                <li><a href="/contact">Nous Contacter</a></li>
+                <li><a href="/A_propos">À Propos</a></li>
+                {% endif %}
+                {% if request.session.get("user") %}
+                <li><a href="#" data-toggle="modal" data-target="#searchModal">Recherche de Commande</a></li>
+                <li><a href="/gestion_acheteur">Gestion des Acheteurs</a></li>
+                <li><a href="/gestion_fournisseur">Gestion des Fournisseurs</a></li>
+                <li><a href="/gestion_AO">Gestion des Appels d'Offres</a></li>
+                <li><a href="/gestion_commande">Gestion des Commandes</a></li>
+                <li><a href="/gestion_avenant">Gestion des Avenants</a></li>
+                {% endif %}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if request.session.get("user") %}
+                    <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Déconnexion</a></li>
+                {% else %}
+                    <li><a href="/sign_up"><span class="glyphicon glyphicon-user"></span> Inscription</a></li>
+                    <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container introduction">
+    <h1 style="font-size: 28px;
+            font-weight: bold;">Bienvenue chez l'entité Achats de Site de Gantour Youssoufia</h1>
+    <p style="font-size: 20px;">La fonction Achats du Groupe OCP a pour mission de procurer les matières premières, les produits finis ou les services nécessaires, dont l'entreprise a besoin pour assurer sa production ou son fonctionnement aux meilleures conditions de qualité, coût global et délai. 
+        Elle joue le rôle de l'intermédiaire entre les fournisseurs et le service utilisateur.</p>
+</div>
+
+<section class="ocp_landing-section" id="theocpgroup">
+    <div class="ocp_promoModule--wrapper">
+        <div class="container">
+            <div class="row op_align-items--center">
+                <div class="col-lg-6 order-lg-2">
+                    <picture class="ocp_img ocp_img--promo-image">
+                        <source srcset="assets/images/OCP_Infographic_History.png" media="(min-width: 1440px)">
+                        <source srcset="assets/images/OCP_Infographic_History.png" media="(min-width: 1024px)">
+                        <img src="assets/images/OCP_Infographic_History.png" class="ocp_img ocp_img-image ocp_img--promo-image" alt="OCP JORF Group Promo">
+                    </picture>
+                </div>
+                <div class="col-lg-6 order-lg-1">
+                    <div class="ocp_textWrapper">
+                        <h2 class="ocp_textWrapper-title ocp_textWrapper-title--small">Histoire des Achats chez OCP</h2>
+                        <div class="ocp_textWrapper-desc">
+                            <p>Le processus d'achat chez OCP a évolué depuis sa création. Initialement centralisé au siège d'approvisionnement à Casablanca, 
+                                le système d'achat a été décentralisé en 1993 pour améliorer l'efficacité. En 2006, l'introduction du système "Oracle" a permis une gestion encore plus fluide des achats. 
+                                Enfin, en 2013, OCP a lancé le portail "OCP E-supplypurchase," 
+                                facilitant la dématérialisation complète des processus d'achat.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="searchModalLabel">Rechercher une Commande</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="/search" method="post">
+                        <div class="form-group">
+                            <label for="searchType">Type de recherche</label>
+                            <select class="form-control" id="searchType" name="searchType">
+                                <option value="">Sélectionner</option>
+                                <option value="fournisseur">Fournisseur</option>
+                                <option value="commande">Commande</option>
+                                <option value="appelOffre">Appel d'Offre</option>
+                                <option value="objet">Objet de Commande</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Fournisseur Fields -->
+                        <div id="fournisseurFields" style="display: none;">
+                            <div class="form-group">
+                                <label for="fournisseurName">Nom Fournisseur</label>
+                                <input type="text" class="form-control" id="fournisseurName" name="fournisseurName" placeholder="Nom du fournisseur">
+                            </div>
+                            <div class="form-group">
+                                <label for="fournisseurCode">Code Fournisseur</label>
+                                <input type="text" class="form-control" id="fournisseurCode" name="fournisseurCode" placeholder="Code du fournisseur">
+                            </div>
+                        </div>
+                        
+                        <!-- Commande Fields -->
+                        <div id="commandeFields" style="display: none;">
+                            <div class="form-group">
+                                <label for="commandeName">Nom Commande</label>
+                                <input type="text" class="form-control" id="commandeName" name="commandeName" placeholder="Nom de la commande">
+                            </div>
+                            <div class="form-group">
+                                <label for="commandeCode">Code Commande</label>
+                                <input type="text" class="form-control" id="commandeCode" name="commandeCode" placeholder="Code de la commande">
+                            </div>
+                        </div>
+                        
+                        <!-- Appel d'Offre Fields -->
+                        <div id="appelOffreFields" style="display: none;">
+                            <div class="form-group">
+                                <label for="aoName">Nom Appel d'Offre</label>
+                                <input type="text" class="form-control" id="aoName" name="aoName" placeholder="Nom de l'appel d'offre">
+                            </div>
+                            <div class="form-group">
+                                <label for="aoCode">Code Appel d'Offre</label>
+                                <input type="text" class="form-control" id="aoCode" name="aoCode" placeholder="Code de l'appel d'offre">
+                            </div>
+                        </div>
+
+                        <div id="ObjetFields" style="display: none;">
+                            <div class="form-group">
+                                <label for="objet">Objet</label>
+                                <input type="text" class="form-control" id="objet" name="objet" placeholder="Objet de Commande">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-search btn-primary">Rechercher</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<section class="ocp_landing-section" id="theocpgroup" >
+    <div class="ocp_promoModule--wrapper">
+        <div class="container">
+            <div class="row op_align-items--center">
+                <div class="col-lg-6 order-lg-1">
+                    <div class="ocp_textWrapper">
+                        <h2 class="ocp_textWrapper-title ocp_textWrapper-title--small">Activités et Processus d'Achat</h2>
+                        <div class="ocp_textWrapper-desc">
+                            <p>Les activités d'achat d'OCP incluent l'acquisition de matériel, de services, et de produits chimiques nécessaires à ses opérations. 
+                                Le processus commence par une présélection rigoureuse des fournisseurs, suivie de la soumission et de l'évaluation des offres techniques et commerciales. 
+                                OCP privilégie une large sélection de fournisseurs pour garantir des approvisionnements compétitifs et de qualité, 
+                                favorisant ainsi une croissance économique durable.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 order-lg-2">
+                    <picture class="ocp_img ocp_img--promo-image">
+                        <source srcset="assets/images/Value_chain_infographic.png" media="(min-width: 1440px)">
+                        <source srcset="assets/images/Value_chain_infographic.png" media="(min-width: 1024px)">
+                        <img src="assets/images/Value_chain_infographic.png" class="ocp_img ocp_img-image ocp_img--promo-image" alt="OCP JORF Group Promo">
+                    </picture>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ocp_landing-section" id="theocpgroup" style="background: url('assets/images/OCP - What is Phospahe - Header - 1600.jpg') no-repeat center center fixed; background-size: cover;">
+    <div class="ocp_promoModule--wrapper">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 order-lg-2">
+                </div>
+                <div class="col-lg-6 offset-lg-6 text-lg-end">
+                    <div class="ocp_textWrapper">
+                        <h2 class="ocp_textWrapper-title ocp_textWrapper-title--small">Engagements et Responsabilités</h2>
+                        <div class="ocp_textWrapper-desc">
+                            <p>OCP s'engage à des pratiques d'achat responsables, incluant le respect des normes internationales et l'éthique professionnelle. 
+                                Le groupe favorise également les partenariats avec des fournisseurs locaux et internationaux, renforçant l'innovation et le développement durable. 
+                                Ces efforts visent à minimiser l'impact environnemental des opérations d'achat et à soutenir les économies locales.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="bg-dark text-white pt-4 pb-4 mt-auto">
+    <div class="container">
+        <div class="row">
+            <!-- About Section -->
+            <div class="col-md-4">
+                <h5>À propos de nous</h5>
+                <p>Fondée en 1920 pour exploiter le phosphate au Maroc, notre entreprise couvre désormais l'ensemble du cycle de la nutrition des plantes.</p>
+            </div>
+            <!-- Links Section -->
+            <div class="col-md-4">
+                <h5>Liens rapides</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-white">Accueil</a></li>
+                    <li><a href="#" class="text-white">Contact</a></li>
+                    <li><a href="#" class="text-white">À propos</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5>Contact</h5>
+                <ul class="list-unstyled">
+                    <li><i class="fa fa-map-marker"></i> Rue Fes, Youssoufia</li>
+                    <li><i class="fa fa-envelope"></i> contact@ocpgroup.ma</li>
+                </ul>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <p>&copy; 2024 OCP S.A. Tous droits réservés.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<script>
+    $(document).ready(function() {
+        $('#searchType').change(function() {
+            var selectedType = $(this).val();
+            // Hide all field sets initially
+            $('#fournisseurFields').hide();
+            $('#commandeFields').hide();
+            $('#appelOffreFields').hide();
+            
+            // Show the relevant fields based on the selected type
+            if (selectedType === 'fournisseur') {
+                $('#fournisseurFields').show();
+            } else if (selectedType === 'commande') {
+                $('#commandeFields').show();
+            } else if (selectedType === 'appelOffre') {
+                $('#appelOffreFields').show();
+            } else if (selectedType === 'objet') {
+                $('#ObjetFields').show();
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

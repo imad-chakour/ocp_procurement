@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+</head>
+
+<body>
+    <div class="container d-flex align-items-center justify-content-center" style="height: 100vh;">
+        <div class="wrapper p-4 bg-white rounded shadow">
+            <header class="mb-4">Sign Up</header>
+            <form id="signupForm" action="/sign_up" method="POST">
+                <div class="mb-3 field">
+                    <div class="input-group">
+                        <span class="input-group-text" id="nameIcon"><i class="fas fa-user"></i></span>
+                        <input type="text" class="form-control" placeholder="Name" id="name" name="name" aria-labelledby="nameIcon" required>
+                    </div>
+                    <div class="error error-txt text-danger mt-1" id="nameError" style="display: none;">Name can't be blank</div>
+                </div>
+                <div class="mb-3 field">
+                    <div class="input-group">
+                        <span class="input-group-text" id="lastnameIcon"><i class="fas fa-user"></i></span>
+                        <input type="text" class="form-control" placeholder="Last Name" id="lastname" name="lastname" aria-labelledby="lastnameIcon" required>
+                    </div>
+                    <div class="error error-txt text-danger mt-1" id="lastnameError" style="display: none;">Last name can't be blank</div>
+                </div>
+                <div class="mb-3 field">
+                    <div class="input-group">
+                        <span class="input-group-text" id="emailIcon"><i class="fas fa-envelope"></i></span>
+                        <input type="email" class="form-control" placeholder="Email Address" id="emailInput" name="email" aria-labelledby="emailIcon" required>
+                    </div>
+                    <div class="error error-txt text-danger mt-1" id="emailError" style="display: none;">Email can't be blank</div>
+                </div>
+                <div class="mb-3 field">
+                    <div class="input-group">
+                        <span class="input-group-text" id="passwordIcon"><i class="fas fa-lock"></i></span>
+                        <input type="password" class="form-control" placeholder="Password" id="passwordInput" name="password" aria-labelledby="passwordIcon" required>
+                    </div>
+                    <div class="error error-txt text-danger mt-1" id="passwordError" style="display: none;">Password can't be blank</div>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+            </form>
+            <div id="successMessage" class="text-success mt-3" style="display: none;">Sign up successful! Redirecting to login page...</div>
+            <div id="errorMessage" class="text-danger mt-3" style="display: none;"></div>
+            <div class="sign-txt mt-3">Already a member? <a href="/login">Login</a></div>
+            <div class="sign-txt mt-3"><a href="/">Home</a></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        const form = document.querySelector("#signupForm");
+
+        form.onsubmit = async (e) => {
+            e.preventDefault();
+
+            // Validate inputs
+            if (validateInputs()) {
+                const formData = new FormData(form);
+                try {
+                    const response = await fetch('/sign_up', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (response.ok) {
+                        const result = await response.json();
+                        console.log(result);
+                        document.getElementById('successMessage').style.display = 'block';
+                        setTimeout(() => {
+                            window.location.href = "/login"; // Redirect to login page after 2 seconds
+                        }, 2000);
+                    } else {
+                        const errorData = await response.json();
+                        document.getElementById('errorMessage').innerText = errorData.detail || "An error occurred, please try again.";
+                        document.getElementById('errorMessage').style.display = 'block'; // Display error message
+                    }
+                } catch (error) {
+                    document.getElementById('errorMessage').innerText = "An unexpected error occurred, please try again.";
+                    document.getElementById('errorMessage').style.display = 'block'; // Handle network errors
+                }
+            }
+        };
+
+        function validateInputs() {
+            const nameField = document.querySelector("#name");
+            const lastnameField = document.querySelector("#lastname");
+            const emailField = document.querySelector("#emailInput");
+            const passwordField = document.querySelector("#passwordInput");
+
+            return validateField(nameField, "nameError", "Name can't be blank")
+                && validateField(lastnameField, "lastnameError", "Last name can't be blank")
+                && validateEmail(emailField)
+                && validateField(passwordField, "passwordError", "Password can't be blank");
+        }
+
+        function validateField(field, errorElementId, errorMessage) {
+            const errorElement = document.getElementById(errorElementId);
+            if (field.value.trim() === '') {
+                errorElement.style.display = 'block';
+                errorElement.innerText = errorMessage;
+                return false;
+            } else {
+                errorElement.style.display = 'none';
+                return true;
+            }
+        }
+
+        function validateEmail(emailField) {
+            const emailValue = emailField.value.trim();
+            const pattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+            const emailErrorElement = document.getElementById("emailError");
+
+            if (!emailValue.match(pattern)) {
+                emailErrorElement.style.display = 'block';
+                emailErrorElement.innerText = 'Enter a valid email address';
+                return false;
+            } else {
+                emailErrorElement.style.display = 'none';
+                return true;
+            }
+        }
+    </script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            width: 100%;
+            height: 100vh;
+            background: url('assets/images/OCP\ -\ STAGE\ 1\ -\ 2304_0.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        ::selection {
+            color: #fff;
+            background: #53f0e3;
+        }
+
+        .wrapper {
+            width: 380px;
+            padding: 40px 30px 50px 30px;
+            background: #fff;
+            border-radius: 5px;
+            text-align: center;
+            box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .wrapper header {
+            font-size: 35px;
+            font-weight: 600;
+        }
+
+        .field.shake {
+            animation: shake 0.3s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%,
+            100% {
+                margin-left: 0px;
+            }
+
+            20%,
+            80% {
+                margin-left: -12px;
+            }
+
+            40%,
+            60% {
+                margin-left: 12px;
+            }
+        }
+
+        .field .input-group-text {
+            background: none;
+            border-color: #bfbfbf;
+        }
+
+        .field.error .input-group-text,
+        .field.shake .input-group-text {
+            color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .field.valid .input-group-text {
+            color: #5372f0;
+            border-color: #5372f0;
+        }
+
+        .field .form-control:focus {
+            border-color: #5372f0;
+            box-shadow: none;
+        }
+
+        .field.valid .form-control {
+            border-color: #5372f0;
+        }
+
+        .field.error .form-control {
+            border-color: #dc3545;
+        }
+
+        .pass-txt a {
+            color: #5372f0;
+        }
+
+        .pass-txt a:hover {
+            text-decoration: underline;
+        }
+
+        .sign-txt a {
+            color: #5372f0;
+            text-decoration: none;
+        }
+
+        .sign-txt a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-primary {
+            background: #5372f0;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: #2c52ed;
+        }
+    </style>
+</body>
+
+</html>

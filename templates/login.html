@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+        body {
+            width: 100%;
+            height: 100vh;
+            background: url('assets/images/OCP\ -\ STAGE\ 1\ -\ 2304_0.jpg')no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        ::selection {
+            color: #fff;
+            background: #53f0e3;
+        }
+        .wrapper {
+            width: 380px;
+            padding: 40px 30px 50px 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        .wrapper header {
+            font-size: 35px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .field.shake {
+            animation: shake 0.3s ease-in-out;
+        }
+        @keyframes shake {
+            0%, 100% { margin-left: 0px; }
+            20%, 80% { margin-left: -12px; }
+            40%, 60% { margin-left: 12px; }
+        }
+        .field .input-group-text {
+            background: none;
+            border-color: #bfbfbf;
+        }
+        .field.error .input-group-text,
+        .field.shake .input-group-text {
+            color: #dc3545;
+            border-color: #dc3545;
+        }
+        .field.valid .input-group-text {
+            color: #5372F0;
+            border-color: #5372F0;
+        }
+        .field .form-control:focus {
+            border-color: #5372F0;
+            box-shadow: none;
+        }
+        .field.valid .form-control {
+            border-color: #5372F0;
+        }
+        .field.error .form-control {
+            border-color: #dc3545;
+        }
+        .pass-txt a {
+            color: #5372F0;
+        }
+        .pass-txt a:hover {
+            text-decoration: underline;
+        }
+        .sign-txt a {
+            color: #5372F0;
+            text-decoration: none;
+        }
+        .sign-txt a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-primary {
+            background: #5372F0;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: #2c52ed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container d-flex align-items-center justify-content-center" style="height: 100vh;">
+        <div class="wrapper p-4 bg-white rounded shadow">
+            <header class="mb-4">Login</header>
+            <form action="/login" method="POST" id="loginForm">
+                <div class="mb-3 field email">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                        <input type="text" class="form-control" placeholder="Email Address" id="emailInput"
+                            name="email">
+                    </div>
+                    <div class="error error-txt text-danger mt-1" id="emailError"></div>
+                </div>
+                <div class="mb-3 field password">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        <input type="password" class="form-control" placeholder="Password" id="passwordInput"
+                            name="password">
+                    </div>
+                    <div class="error error-txt text-danger mt-1" id="passwordError"></div>
+                </div>
+                <div class="mb-3">
+                    {% if error_message %}
+                        <p style="color: red;">{{ error_message }}</p>
+                    {% endif %}
+                </div>
+                <div class="mb-3 pass-txt"><a href="#">Forgot password?</a></div>
+                <button type="submit" class="btn btn-primary w-100">Login</button>
+            </form>
+            <div class="sign-txt mt-3">Not a member? <a href="/sign_up">Sign up now</a></div>
+            <div class="sign-txt mt-3"><a href="/">Home</a></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const form = document.querySelector("#loginForm");
+        const emailInput = document.querySelector("#emailInput");
+        const passwordInput = document.querySelector("#passwordInput");
+        const emailError = document.querySelector("#emailError");
+        const passwordError = document.querySelector("#passwordError");
+
+        form.onsubmit = async (e) => {
+            e.preventDefault();
+
+            if (!emailInput.value.trim()) {
+                emailError.innerText = "Email can't be blank";
+            } else {
+                emailError.innerText = "";
+            }
+
+            if (!passwordInput.value.trim()) {
+                passwordError.innerText = "Password can't be blank";
+            } else {
+                passwordError.innerText = "";
+            }
+
+            if (emailInput.value.trim() && passwordInput.value.trim()) {
+                form.submit();
+            }
+        };
+    </script>
+</body>
+
+</html>

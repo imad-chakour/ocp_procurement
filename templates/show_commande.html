@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        /* General Styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            color: #333;
+            width: 100%;
+            height: 100vh;
+            background: url('assets/images/OCP\ -\ STAGE\ 1\ -\ 2304_0.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        
+        .navbar {
+            background-color: #2e7d32; /* Modern Dark Green Background */
+            border: none; /* Remove borders */
+            border-radius: 0; /* Remove border-radius */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+        }
+        .navbar-brand, 
+        .navbar-nav>li>a {
+            color: #ffffff !important; /* White Text */
+            font-weight: 500; /* Medium weight for modern look */
+            transition: color 0.3s ease; /* Smooth transition */
+        }
+        .navbar-brand:hover, 
+        .navbar-nav>li>a:hover {
+            color: #c8e6c9 !important; /* Light green text on hover */
+        }
+        .navbar-nav .active>a {
+            background-color: #388e3c !important; /* Darker green for active link */
+            color: #ffffff !important;
+            border-radius: 4px; /* Subtle rounded corners */
+        }
+        .navbar-toggle {
+            border: none; /* Remove toggle border */
+        }
+        .navbar-toggle .icon-bar {
+            background-color: #ffffff; /* White bars */
+            transition: all 0.3s ease; /* Smooth transition for icon */
+        }
+        .navbar-toggle:hover .icon-bar {
+            background-color: #c8e6c9; /* Light green bars on hover */
+        }
+        .container {
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .container h1 {
+            font-size: 36px; /* Increased font size for title */
+            margin-top: 0;
+            color: #000000;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .container table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .container table, .container th, .container td {
+            border: 1px solid #ddd;
+        }
+        .container th, .container td {
+            padding: 15px;
+            text-align: left;
+            font-size: 15px; /* Increased font size for table text */
+        }
+        .container th {
+            background-color: #1e5b00;
+            color: white;
+        }
+        .logo-green {
+        filter: brightness(0) invert(1);
+    }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>                        
+            </button>
+            <img class="logo-green" src="assets/images/logo.svg" alt="Home" title="Home">
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li><a href="/">Accueil</a></li>
+                {% if not request.session.get("user") %}
+                <li><a href="/contact">Nous Contacter</a></li>
+                <li><a href="/A_propos">À Propos</a></li>
+                {% endif %}
+                {% if request.session.get("user") %}
+                <li><a href="#" data-toggle="modal" data-target="#searchModal">Recherche de Commande</a></li>
+                <li><a href="/gestion_acheteur">Gestion des Acheteurs</a></li>
+                <li><a href="/gestion_fournisseur">Gestion des Fournisseurs</a></li>
+                <li><a href="/gestion_AO">Gestion des Appels d'Offres</a></li>
+                <li><a href="/gestion_commande">Gestion des Commandes</a></li>
+                <li><a href="/gestion_avenant">Gestion des Avenants</a></li>
+                {% endif %}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if request.session.get("user") %}
+                    <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Déconnexion</a></li>
+                {% else %}
+                    <li><a href="/sign_up"><span class="glyphicon glyphicon-user"></span> Inscription</a></li>
+                    <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+    <div class="container">
+        <h1 style="font-size: 28px; font-weight: bold;">Search Results for {{ searchType }}</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nom de la Commande</th>
+                    <th>Code de la Commande</th>
+                    <th>Nom du fournisseur</th>
+                    <th>Code du fournisseur</th>
+                    <th>Nom d'Appel d'offre</th>
+                    <th>Code d'Appel d'offre</th>
+                    <th>Date de la Commande</th>
+                    <th>Document</th>
+                </tr>
+            </thead>
+            <tbody id="userTableBody">
+                {% for commande in results %}
+                    <tr>
+                        <td>{{ commande.name }}</td>
+                        <td>{{ commande.code }}</td>
+                        <td>{{ commande.fournisseur.lastname }}</td>
+                        <td>{{ commande.fournisseur.code }}</td>
+                        <td>{{ commande.AO.name }}</td>
+                        <td>{{ commande.AO.code }}</td>
+                        <td>{{ commande.date }}</td>
+                        <td>
+                            {% if commande.document_url %}
+                                <a href="{{ commande.document_url }}" target="_blank" class="btn btn-sm btn-info">View Document</a>
+                            {% else %}
+                                No Document
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="searchModalLabel">Rechercher une Commande</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="/search" method="post">
+                        <div class="form-group">
+                            <label for="searchType">Type de recherche</label>
+                            <select class="form-control" id="searchType" name="searchType">
+                                <option value="">Sélectionner</option>
+                                <option value="fournisseur">Fournisseur</option>
+                                <option value="commande">Commande</option>
+                                <option value="appelOffre">Appel d'Offre</option>
+                                <option value="objet">Objet de Commande</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Fournisseur Fields -->
+                        <div id="fournisseurFields" style="display: none;">
+                            <div class="form-group">
+                                <label for="fournisseurName">Nom Fournisseur</label>
+                                <input type="text" class="form-control" id="fournisseurName" name="fournisseurName" placeholder="Nom du fournisseur">
+                            </div>
+                            <div class="form-group">
+                                <label for="fournisseurCode">Code Fournisseur</label>
+                                <input type="text" class="form-control" id="fournisseurCode" name="fournisseurCode" placeholder="Code du fournisseur">
+                            </div>
+                        </div>
+                        
+                        <!-- Commande Fields -->
+                        <div id="commandeFields" style="display: none;">
+                            <div class="form-group">
+                                <label for="commandeName">Nom Commande</label>
+                                <input type="text" class="form-control" id="commandeName" name="commandeName" placeholder="Nom de la commande">
+                            </div>
+                            <div class="form-group">
+                                <label for="commandeCode">Code Commande</label>
+                                <input type="text" class="form-control" id="commandeCode" name="commandeCode" placeholder="Code de la commande">
+                            </div>
+                        </div>
+                        
+                        <!-- Appel d'Offre Fields -->
+                        <div id="appelOffreFields" style="display: none;">
+                            <div class="form-group">
+                                <label for="aoName">Nom Appel d'Offre</label>
+                                <input type="text" class="form-control" id="aoName" name="aoName" placeholder="Nom de l'appel d'offre">
+                            </div>
+                            <div class="form-group">
+                                <label for="aoCode">Code Appel d'Offre</label>
+                                <input type="text" class="form-control" id="aoCode" name="aoCode" placeholder="Code de l'appel d'offre">
+                            </div>
+                        </div>
+
+                        <div id="ObjetFields" style="display: none;">
+                            <div class="form-group">
+                                <label for="objet">Objet</label>
+                                <input type="text" class="form-control" id="objet" name="objet" placeholder="Objet de Commande">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-search btn-primary">Rechercher</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        $(document).ready(function() {
+        $('#searchType').change(function() {
+            var selectedType = $(this).val();
+            
+            // Hide all field sets initially
+            $('#fournisseurFields').hide();
+            $('#commandeFields').hide();
+            $('#appelOffreFields').hide();
+            
+            // Show the relevant fields based on the selected type
+            if (selectedType === 'fournisseur') {
+                $('#fournisseurFields').show();
+            } else if (selectedType === 'commande') {
+                $('#commandeFields').show();
+            } else if (selectedType === 'appelOffre') {
+                $('#appelOffreFields').show();
+            } else if (selectedType === 'objet') {
+                $('#ObjetFields').show();
+            }
+        });
+    });
+    </script>
+</body>
+</html>
