@@ -3,12 +3,14 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-DATABASE_URL = os.getenv("DATABASE_URL")
+# Define the local database URL
+DATABASE_URL = "postgresql://postgres:postgre2024@localhost/OCPproject"
 
-if DATABASE_URL is None:
-    raise ValueError("DATABASE_URL environment variable is not set.")
+# Replace 'username', 'password', and 'dbname' with your local PostgreSQL credentials and database name
+# Example: "postgresql://postgres:password@localhost/mydatabase"
 
-engine = create_engine(DATABASE_URL)
+# Create the engine
+engine = create_engine(DATABASE_URL, echo=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LocationAuto - Contactez-nous</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        /* General Styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            color: #333;
+            width: 100%;
+            height: 100vh;
+            background: url('assets/images/OCP - STAGE 1 - 2304_0.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        /* Modern Navbar Styles */
+        .navbar {
+            background-color: #2e7d32; /* Modern Dark Green Background */
+            border: none; /* Remove borders */
+            border-radius: 0; /* Remove border-radius */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+        }
+        .navbar-brand, 
+        .navbar-nav>li>a {
+            color: #ffffff !important; /* White Text */
+            font-weight: 500; /* Medium weight for modern look */
+            transition: color 0.3s ease; /* Smooth transition */
+        }
+        .navbar-brand:hover, 
+        .navbar-nav>li>a:hover {
+            color: #c8e6c9 !important; /* Light green text on hover */
+        }
+        .navbar-nav .active>a {
+            background-color: #388e3c !important; /* Darker green for active link */
+            color: #ffffff !important;
+            border-radius: 4px; /* Subtle rounded corners */
+        }
+        .navbar-toggle {
+            border: none; /* Remove toggle border */
+        }
+        .navbar-toggle .icon-bar {
+            background-color: #ffffff; /* White bars */
+            transition: all 0.3s ease; /* Smooth transition for icon */
+        }
+        .navbar-toggle:hover .icon-bar {
+            background-color: #c8e6c9; /* Light green bars on hover */
+        }
+        /* Contact Us Section */
+        .contact-section {
+            padding: 40px 20px; /* White background for contact section */
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        /* Customize the Submit Button */
+        .contact-form button[type="submit"] {
+            background-color: #2e7d32; /* Match navbar color */
+            border-color: #2e7d32; /* Match navbar color */
+            color: #ffffff; /* White text */
+        }
+
+        .contact-form button[type="submit"]:hover {
+            background-color: #388e3c; /* Slightly darker green on hover */
+            border-color: #388e3c; /* Slightly darker green on hover */
+        }
+        .contact-section h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #2e7d32; /* Match navbar color */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .contact-section p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .contact-info {
+            margin-bottom: 20px;
+        }
+        .contact-info i {
+            margin-right: 10px;
+            color: #2e7d32; /* Match navbar color */
+        }
+        .social-media a {
+            font-size: 24px;
+            color: #2e7d32; /* Match navbar color */
+            margin-right: 20px;
+            text-decoration: none;
+        }
+        .social-media a:hover {
+            color: #c8e6c9; /* Light green on hover */
+        }
+
+        /* Modern Footer Section */
+        footer {
+            background: #2e7d32; /* Modern Dark Green Background */
+            color: #ffffff; /* White text */
+            text-align: center;
+            padding: 30px 0;
+            border-top: 1px solid #388e3c; /* Subtle border for separation */
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+        }
+
+        footer ul {
+            list-style: none;
+            padding: 0;
+            margin: 0; /* Remove default margin */
+        }
+
+        footer ul li {
+            display: inline-block; /* Inline-block for better spacing control */
+            margin: 0 15px; /* Equal spacing on both sides */
+        }
+
+        footer ul li a {
+            color: #c8e6c9; /* Light green text for links */
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500; /* Medium weight for modern look */
+            transition: color 0.3s ease; /* Smooth transition */
+        }
+
+        footer ul li a:hover {
+            color: #ffffff; /* White on hover */
+        }
+
+        .redirect-image {
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .redirect-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .logo-green {
+            filter: brightness(0) invert(1);
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>                        
+                </button>
+                <img class="logo-green" src="assets/images/logo.svg" alt="Home" title="Home">
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li><a href="/">Accueil</a></li>
+                    {% if not request.session.get("user") %}
+                    <li class="active"><a href="/contact">Nous Contacter</a></li>
+                    <li><a href="/A_propos">À Propos</a></li>
+                    {% endif %}
+                    {% if request.session.get("user") %}
+                    <li><a href="#" data-toggle="modal" data-target="#searchModal">Recherche de Commande</a></li>
+                    <li><a href="/gestion_acheteur">Gestion des Acheteurs</a></li>
+                    <li><a href="/gestion_fournisseur">Gestion des Fournisseurs</a></li>
+                    <li><a href="/gestion_AO">Gestion des Appels d'Offres</a></li>
+                    <li><a href="/gestion_commande">Gestion des Commandes</a></li>
+                    <li><a href="/gestion_avenant">Gestion des Avenants</a></li>
+                    {% endif %}
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {% if request.session.get("user") %}
+                        <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Déconnexion</a></li>
+                    {% else %}
+                        <li><a href="/sign_up"><span class="glyphicon glyphicon-user"></span> Inscription</a></li>
+                        <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container contact-section">
+        <h2>Contactez-nous</h2>
+        <p>Nous sommes ici pour vous aider. Contactez-nous par téléphone, par email ou via nos réseaux sociaux.</p>
+        
+        <div class="contact-info">
+            <p><i class="fa fa-phone"></i> <strong>Téléphone:</strong> +212-123-456-789</p>
+            <p><i class="fa fa-envelope"></i> <strong>Email:</strong> contact@ocpgroup.ma</p>
+        </div>
+
+        <div class="social-media">
+            <h3>Suivez-nous sur les réseaux sociaux</h3>
+            <a href="https://facebook.com" target="_blank" class="fa fa-facebook"></a>
+            <a href="https://twitter.com" target="_blank" class="fa fa-twitter"></a>
+            <a href="https://instagram.com" target="_blank" class="fa fa-instagram"></a>
+            <a href="https://linkedin.com" target="_blank" class="fa fa-linkedin"></a>
+        </div>
+
+        <div class="contact-form">
+            <h3>Envoyez-nous un message</h3>
+            <form>
+                <div class="form-group">
+                    <label for="contactName">Nom</label>
+                    <input type="text" class="form-control" id="contactName" placeholder="Entrez votre nom" required>
+                </div>
+                <div class="form-group">
+                    <label for="contactEmail">Email</label>
+                    <input type="email" class="form-control" id="contactEmail" placeholder="Entrez votre email" required>
+                </div>
+                <div class="form-group">
+                    <label for="contactMessage">Message</label>
+                    <textarea class="form-control" id="contactMessage" rows="5" placeholder="Entrez votre message" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Envoyer</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <!-- About Section -->
+                <div class="col-md-4">
+                    <h5>À propos de nous</h5>
+                    <p>Fondée en 1920 pour exploiter le phosphate au Maroc, notre entreprise couvre désormais l'ensemble du cycle de la nutrition des plantes.</p>
+                </div>
+                <!-- Links Section -->
+                <div class="col-md-4">
+                    <h5>Liens rapides</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="/" class="text-white">Accueil</a></li>
+                        <li><a href="/contact" class="text-white">Contact</a></li>
+                        <li><a href="/A_propos" class="text-white">À propos</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Contact</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fa fa-map-marker"></i> Rue Fes, Youssoufia</li>
+                        <li><i class="fa fa-envelope"></i> contact@ocpgroup.ma</li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <p>&copy; 2024 OCP S.A. Tous droits réservés.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

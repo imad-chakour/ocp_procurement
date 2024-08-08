@@ -12,9 +12,19 @@ from datetime import date
 from app import models, schemas
 from app.database import engine, get_db_conn
 from pydantic import ValidationError
+from fastapi.middleware.cors import CORSMiddleware
+app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # You can specify the exact origin(s) instead of "*" for better security.
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 load_dotenv()  # Load environment variables from .env file
-app = FastAPI()
+
 templates = Jinja2Templates(directory="templates")
 app.mount("/assets", StaticFiles(directory="templates/assets"), name="assets")
 models.Base.metadata.create_all(bind=engine)
@@ -72,6 +82,14 @@ async def get_sign_up(request: Request):
 @app.get("/gestion_acheteur", response_class=HTMLResponse)
 async def sign_up_admin(request: Request):
     return templates.TemplateResponse("gestion_acheteur.html", {"request": request})
+
+@app.get("/contact", response_class=HTMLResponse)
+async def get_login(request: Request):
+    return templates.TemplateResponse("contact.html", {"request": request})
+
+@app.get("/A_propos", response_class=HTMLResponse)
+async def get_login(request: Request):
+    return templates.TemplateResponse("A_propos.html", {"request": request})
 
 def get_current_user(request: Request):
     user = request.session.get("user")
